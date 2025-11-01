@@ -23,9 +23,9 @@ export default function Dashboard() {
   const students = listStudents()
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div className="lg:col-span-2 bg-card border border-border rounded p-4">
-        <h2 className="text-white font-semibold mb-3">Haftalik tashriflar</h2>
-        <div className="h-64">
+      <div className="lg:col-span-2 bg-card border border-border rounded p-3 md:p-4">
+        <h2 className="text-white font-semibold text-base md:text-lg mb-3">Haftalik tashriflar</h2>
+        <div className="h-48 md:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={visits}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -38,19 +38,19 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded p-4">
-        <h2 className="text-white font-semibold mb-3">Statistika</h2>
+      <div className="bg-card border border-border rounded p-3 md:p-4">
+        <h2 className="text-white font-semibold text-base md:text-lg mb-3">Statistika</h2>
         <div className="grid grid-cols-2 gap-3 text-gray-200 mb-3">
-          <div className="bg-white/5 rounded p-3">
-            <div className="text-xs text-gray-400">O‘qituvchilar</div>
-            <div className="text-2xl font-semibold">{teachers.length}</div>
+          <div className="bg-white/5 rounded p-2 md:p-3">
+            <div className="text-xs text-gray-400">O'qituvchilar</div>
+            <div className="text-xl md:text-2xl font-semibold">{teachers.length}</div>
           </div>
-          <div className="bg-white/5 rounded p-3">
+          <div className="bg-white/5 rounded p-2 md:p-3">
             <div className="text-xs text-gray-400">Talabalar</div>
-            <div className="text-2xl font-semibold">{students.length}</div>
+            <div className="text-xl md:text-2xl font-semibold">{students.length}</div>
           </div>
         </div>
-        <div className="h-64">
+        <div className="h-48 md:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={80}>

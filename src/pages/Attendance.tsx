@@ -130,7 +130,7 @@ export default function Attendance() {
       }).length
       const total = groupStudents.length
       const attendanceRate = total > 0 ? ((present + late) / total) * 100 : 0
-      
+
       return {
         group,
         present,
@@ -160,7 +160,7 @@ export default function Attendance() {
       }).length
       const total = groupStudents.length
       const attendanceRate = total > 0 ? ((present + late) / total) * 100 : 0
-      
+
       return {
         group,
         present,
@@ -181,8 +181,8 @@ export default function Attendance() {
   return (
     <div className="space-y-4">
       <Card className="text-gray-200">
-        <h2 className="text-white font-semibold text-lg mb-4">Davomat jurnali</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+        <h2 className="text-white font-semibold text-base md:text-lg mb-4">Davomat jurnali</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-end">
           <div>
             <label className="block text-xs text-gray-400 mb-1">Kurs</label>
             <select
@@ -216,16 +216,16 @@ export default function Attendance() {
           </div>
           <div>
             <label className="block text-xs text-gray-400 mb-1">Sana</label>
-            <Input 
-              type="date" 
-              value={date} 
+            <Input
+              type="date"
+              value={date}
               onChange={e => setDate(e.target.value)}
               className="text-sm"
             />
           </div>
           <div>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={exportCsv}
               disabled={!selectedGroup}
               className="w-full"
@@ -234,7 +234,7 @@ export default function Attendance() {
             </Button>
           </div>
         </div>
-        
+
         {selectedGroup && (
           <div className="mt-4 pt-4 border-t border-border">
             <div className="text-sm text-gray-400 mb-2">
@@ -242,18 +242,18 @@ export default function Attendance() {
               <span className="ml-2">•</span>
               <span className="ml-2">Guruh: <span className="text-white font-medium">{selectedGroup}</span></span>
             </div>
-            <div className="grid grid-cols-3 gap-3 mt-3">
-              <div className="bg-green-500/10 border border-green-500/30 rounded p-3">
+            <div className="grid grid-cols-3 gap-2 md:gap-3 mt-3">
+              <div className="bg-green-500/10 border border-green-500/30 rounded p-2 md:p-3">
                 <div className="text-xs text-gray-400 mb-1">Keldi</div>
-                <div className="text-2xl font-bold text-green-400">{presentCount}</div>
+                <div className="text-xl md:text-2xl font-bold text-green-400">{presentCount}</div>
               </div>
-              <div className="bg-red-500/10 border border-red-500/30 rounded p-3">
+              <div className="bg-red-500/10 border border-red-500/30 rounded p-2 md:p-3">
                 <div className="text-xs text-gray-400 mb-1">Kelmedi</div>
-                <div className="text-2xl font-bold text-red-400">{absentCount}</div>
+                <div className="text-xl md:text-2xl font-bold text-red-400">{absentCount}</div>
               </div>
-              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded p-3">
+              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded p-2 md:p-3">
                 <div className="text-xs text-gray-400 mb-1">Kechikdi</div>
-                <div className="text-2xl font-bold text-yellow-400">{lateCount}</div>
+                <div className="text-xl md:text-2xl font-bold text-yellow-400">{lateCount}</div>
               </div>
             </div>
           </div>
@@ -262,67 +262,64 @@ export default function Attendance() {
 
       {selectedGroup && filteredStudents.length > 0 ? (
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 bg-white/5 border-b border-border">
-            <h3 className="text-white font-semibold">O'quvchilar ro'yxati ({filteredStudents.length} ta)</h3>
+          <div className="p-3 md:p-4 bg-white/5 border-b border-border">
+            <h3 className="text-white font-semibold text-sm md:text-base">O'quvchilar ro'yxati ({filteredStudents.length} ta)</h3>
           </div>
           <div className="divide-y divide-border">
             {filteredStudents.map((student, idx) => {
               const status = statusOf(student.id)
               return (
-                <div 
-                  key={student.id} 
-                  className={`p-4 hover:bg-white/5 transition-colors border-l-4 ${getStatusColor(status).split(' ')[1]}`}
+                <div
+                  key={student.id}
+                  className={`p-3 md:p-4 hover:bg-white/5 transition-colors border-l-4 ${getStatusColor(status).split(' ')[1]}`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-sm font-medium text-primary">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-sm font-medium text-primary shrink-0">
                         {idx + 1}
                       </div>
-                      <div>
-                        <div className="font-medium text-white">{student.fullName}</div>
+                      <div className="min-w-0 flex-1">
+                        <div className="font-medium text-white truncate">{student.fullName}</div>
                         {student.program && (
-                          <div className="text-xs text-gray-400 mt-0.5">{student.program}</div>
+                          <div className="text-xs text-gray-400 mt-0.5 truncate">{student.program}</div>
                         )}
                       </div>
                     </div>
-                    
-                    <div className="flex items-center gap-3">
-                      <div className={`px-3 py-1.5 rounded text-sm font-medium border ${getStatusColor(status)}`}>
+
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                      <div className={`px-3 py-1.5 rounded text-sm font-medium border shrink-0 ${getStatusColor(status)}`}>
                         {getStatusLabel(status)}
                       </div>
-                      
+
                       <RoleGuard allow={['admin', 'teacher']}>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap">
                           <Button
                             variant="outline"
                             onClick={() => mark(student.id, 'present')}
-                            className={`text-xs px-3 py-1.5 ${
-                              status === 'present' 
-                                ? 'bg-green-500/20 border-green-500 text-green-300' 
+                            className={`text-xs px-2 py-1.5 flex-1 sm:flex-none ${status === 'present'
+                                ? 'bg-green-500/20 border-green-500 text-green-300'
                                 : 'hover:bg-green-500/10 hover:border-green-500/50'
-                            }`}
+                              }`}
                           >
                             Keldi
                           </Button>
                           <Button
                             variant="outline"
                             onClick={() => mark(student.id, 'absent')}
-                            className={`text-xs px-3 py-1.5 ${
-                              status === 'absent' 
-                                ? 'bg-red-500/20 border-red-500 text-red-300' 
+                            className={`text-xs px-2 py-1.5 flex-1 sm:flex-none ${status === 'absent'
+                                ? 'bg-red-500/20 border-red-500 text-red-300'
                                 : 'hover:bg-red-500/10 hover:border-red-500/50'
-                            }`}
+                              }`}
                           >
                             Kelmedi
                           </Button>
                           <Button
                             variant="outline"
                             onClick={() => mark(student.id, 'late')}
-                            className={`text-xs px-3 py-1.5 ${
-                              status === 'late' 
-                                ? 'bg-yellow-500/20 border-yellow-500 text-yellow-300' 
+                            className={`text-xs px-2 py-1.5 flex-1 sm:flex-none ${status === 'late'
+                                ? 'bg-yellow-500/20 border-yellow-500 text-yellow-300'
                                 : 'hover:bg-yellow-500/10 hover:border-yellow-500/50'
-                            }`}
+                              }`}
                           >
                             Kechikdi
                           </Button>
@@ -335,7 +332,7 @@ export default function Attendance() {
             })}
           </div>
           {hasUnsavedChanges && (
-            <div className="p-4 bg-white/5 border-t border-border">
+            <div className="p-3 md:p-4 bg-white/5 border-t border-border sticky bottom-0 z-10">
               <RoleGuard allow={['admin', 'teacher']}>
                 <Button onClick={handleSave} className="w-full">
                   Davomatni saqlash
@@ -361,32 +358,33 @@ export default function Attendance() {
       )}
 
       {/* Diagrammalar bo'limi */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         {/* 1-kurs guruhlari diagrammasi */}
         <Card className="text-gray-200">
-          <h3 className="text-white font-semibold text-lg mb-4">1-kurs guruhlari davomat statistikasi</h3>
-          <div className="h-80">
+          <h3 className="text-white font-semibold text-base md:text-lg mb-4">1-kurs guruhlari davomat statistikasi</h3>
+          <div className="h-64 md:h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={firstCourseStats} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+              <BarChart data={firstCourseStats} margin={{ top: 10, right: 10, left: 0, bottom: 50 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis 
-                  dataKey="group" 
-                  stroke="#94a3b8" 
-                  angle={-45} 
-                  textAnchor="end" 
-                  height={80}
-                  fontSize={11}
+                <XAxis
+                  dataKey="group"
+                  stroke="#94a3b8"
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
+                  fontSize={10}
+                  interval={0}
                 />
                 <YAxis stroke="#94a3b8" />
-                <Tooltip 
-                  contentStyle={{ 
-                    background: '#0f172a', 
+                <Tooltip
+                  contentStyle={{
+                    background: '#0f172a',
                     border: '1px solid #1e293b',
                     borderRadius: '8px'
                   }}
                   labelStyle={{ color: '#e2e8f0' }}
                 />
-                <Legend 
+                <Legend
                   wrapperStyle={{ color: '#94a3b8' }}
                   formatter={(value) => {
                     const labels: Record<string, string> = {
@@ -410,29 +408,30 @@ export default function Attendance() {
 
         {/* 2-kurs guruhlari diagrammasi */}
         <Card className="text-gray-200">
-          <h3 className="text-white font-semibold text-lg mb-4">2-kurs guruhlari davomat statistikasi</h3>
-          <div className="h-80">
+          <h3 className="text-white font-semibold text-base md:text-lg mb-4">2-kurs guruhlari davomat statistikasi</h3>
+          <div className="h-64 md:h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={secondCourseStats} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+              <BarChart data={secondCourseStats} margin={{ top: 10, right: 10, left: 0, bottom: 50 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis 
-                  dataKey="group" 
-                  stroke="#94a3b8" 
-                  angle={-45} 
-                  textAnchor="end" 
-                  height={80}
-                  fontSize={11}
+                <XAxis
+                  dataKey="group"
+                  stroke="#94a3b8"
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
+                  fontSize={10}
+                  interval={0}
                 />
                 <YAxis stroke="#94a3b8" />
-                <Tooltip 
-                  contentStyle={{ 
-                    background: '#0f172a', 
+                <Tooltip
+                  contentStyle={{
+                    background: '#0f172a',
                     border: '1px solid #1e293b',
                     borderRadius: '8px'
                   }}
                   labelStyle={{ color: '#e2e8f0' }}
                 />
-                <Legend 
+                <Legend
                   wrapperStyle={{ color: '#94a3b8' }}
                   formatter={(value) => {
                     const labels: Record<string, string> = {

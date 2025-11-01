@@ -195,7 +195,7 @@ export default function Teachers() {
     <div className="space-y-4">
       <RoleGuard allow={['admin']}>
         <Card className="text-gray-200">
-          <div className="grid grid-cols-1 md:grid-cols-8 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
             <div>
               <label className="block text-xs text-gray-400 mb-1">Ism</label>
               <Input value={form.firstName || ''} onChange={e => setForm({ ...form, firstName: e.target.value })} />
@@ -270,10 +270,10 @@ export default function Teachers() {
                 ))}
               </select>
             </div>
-            <div className="md:col-span-8">
-              <Button onClick={onSubmit}>{editingId ? 'Saqlash' : 'Qo‘shish'}</Button>
+            <div className="sm:col-span-2 md:col-span-4 lg:col-span-8 flex gap-2">
+              <Button onClick={onSubmit} className="flex-1 sm:flex-none">{editingId ? 'Saqlash' : "Qo'shish"}</Button>
               {editingId && (
-                <Button variant="outline" className="ml-2" onClick={resetForm}>Bekor qilish</Button>
+                <Button variant="outline" onClick={resetForm}>Bekor qilish</Button>
               )}
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function Teachers() {
       </RoleGuard>
 
       <Card className="text-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 items-end">
           <div>
             <label className="block text-xs text-gray-400 mb-1">Qidirish</label>
             <Input placeholder="Ism bo‘yicha..." value={query} onChange={e => setQuery(e.target.value)} />
@@ -316,46 +316,77 @@ export default function Teachers() {
       </Card>
 
       <Card className="p-0 overflow-hidden">
-        <div className="flex justify-between p-3">
-          <label className="text-sm text-gray-300">
-            <span className="mr-2">CSV import</span>
+        <div className="flex flex-col sm:flex-row justify-between gap-2 p-3">
+          <label className="text-sm text-gray-300 flex items-center gap-2">
+            <span>CSV import</span>
             <input type="file" accept=".csv" onChange={importCsv} className="hidden" id="t-import" />
-            <Button asChild variant="outline"><label htmlFor="t-import">Yuklash</label></Button>
+            <Button asChild variant="outline"><label htmlFor="t-import" className="cursor-pointer">Yuklash</label></Button>
           </label>
           <Button variant="outline" onClick={exportCsv}>CSV eksport</Button>
         </div>
-        <table className="w-full text-sm">
-          <thead className="bg-white/5 text-gray-300">
-            <tr>
-              <th className="text-left px-4 py-2">F.I.Sh</th>
-              <th className="text-left px-4 py-2">Username</th>
-              <th className="text-left px-4 py-2">Telefon</th>
-              <th className="text-left px-4 py-2">Kafedra</th>
-              <th className="text-left px-4 py-2">Daraja</th>
-              <th className="text-left px-4 py-2">Mutaxasislik</th>
-              <th className="px-4 py-2 text-right">Amallar</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-200">
-            {filtered.map(t => (
-              <tr key={t.id} className="border-t border-border">
-                <td className="px-4 py-2">{t.fullName}</td>
-                <td className="px-4 py-2">{t.username}</td>
-                <td className="px-4 py-2">{t.phone}</td>
-                <td className="px-4 py-2">{t.department}</td>
-                <td className="px-4 py-2">{t.degree}</td>
-                <td className="px-4 py-2">{t.specialization || '—'}</td>
-                <td className="px-4 py-2 text-right">
-                  <RoleGuard allow={['admin']}>
-                    <Button variant="outline" className="mr-2" onClick={() => onEdit(t)}>Tahrirlash</Button>
-                    <Button variant="outline" className="mr-2" onClick={async () => { const pwd = getTeacherPassword(t.id); if (pwd) { try { await navigator.clipboard.writeText(pwd) } catch { }; alert(`Parol: ${pwd}`) } }}>Parol</Button>
-                    <Button variant="outline" onClick={() => onDelete(t.id)}>O‘chirish</Button>
-                  </RoleGuard>
-                </td>
+        
+        {/* Desktop table view */}
+        <div className="hidden lg:block overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-white/5 text-gray-300">
+              <tr>
+                <th className="text-left px-4 py-2">F.I.Sh</th>
+                <th className="text-left px-4 py-2">Username</th>
+                <th className="text-left px-4 py-2">Telefon</th>
+                <th className="text-left px-4 py-2">Kafedra</th>
+                <th className="text-left px-4 py-2">Daraja</th>
+                <th className="text-left px-4 py-2">Mutaxasislik</th>
+                <th className="px-4 py-2 text-right">Amallar</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-gray-200">
+              {filtered.map(t => (
+                <tr key={t.id} className="border-t border-border">
+                  <td className="px-4 py-2">{t.fullName}</td>
+                  <td className="px-4 py-2">{t.username}</td>
+                  <td className="px-4 py-2">{t.phone}</td>
+                  <td className="px-4 py-2">{t.department}</td>
+                  <td className="px-4 py-2">{t.degree}</td>
+                  <td className="px-4 py-2">{t.specialization || '—'}</td>
+                  <td className="px-4 py-2 text-right">
+                    <RoleGuard allow={['admin']}>
+                      <div className="flex gap-2 justify-end flex-wrap">
+                        <Button variant="outline" className="text-xs px-2 py-1" onClick={() => onEdit(t)}>Tahrirlash</Button>
+                        <Button variant="outline" className="text-xs px-2 py-1" onClick={async () => { const pwd = getTeacherPassword(t.id); if (pwd) { try { await navigator.clipboard.writeText(pwd) } catch { }; alert(`Parol: ${pwd}`) } }}>Parol</Button>
+                        <Button variant="outline" className="text-xs px-2 py-1" onClick={() => onDelete(t.id)}>O'chirish</Button>
+                      </div>
+                    </RoleGuard>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile/Tablet card view */}
+        <div className="lg:hidden divide-y divide-border">
+          {filtered.map(t => (
+            <div key={t.id} className="p-4 space-y-2">
+              <div>
+                <div className="font-medium text-white">{t.fullName}</div>
+                <div className="text-xs text-gray-400 mt-1 space-y-1">
+                  <div>Username: {t.username}</div>
+                  <div>Telefon: {t.phone || '—'}</div>
+                  <div>Kafedra: {t.department || '—'}</div>
+                  <div>Daraja: {t.degree || '—'}</div>
+                  <div>Mutaxasislik: {t.specialization || '—'}</div>
+                </div>
+              </div>
+              <RoleGuard allow={['admin']}>
+                <div className="flex gap-2 pt-2 flex-wrap">
+                  <Button variant="outline" className="text-xs flex-1 min-w-[100px]" onClick={() => onEdit(t)}>Tahrirlash</Button>
+                  <Button variant="outline" className="text-xs flex-1 min-w-[100px]" onClick={async () => { const pwd = getTeacherPassword(t.id); if (pwd) { try { await navigator.clipboard.writeText(pwd) } catch { }; alert(`Parol: ${pwd}`) } }}>Parol</Button>
+                  <Button variant="outline" className="text-xs flex-1 min-w-[100px]" onClick={() => onDelete(t.id)}>O'chirish</Button>
+                </div>
+              </RoleGuard>
+            </div>
+          ))}
+        </div>
       </Card>
     </div>
   )

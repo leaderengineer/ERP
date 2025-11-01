@@ -93,45 +93,94 @@ export default function Schedule() {
       </Card>
 
       <Card className="p-0 overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-white/5 text-gray-300">
-            <tr>
-              <th className="text-left px-4 py-2">Kun</th>
-              <th className="text-left px-4 py-2">Soat</th>
-              <th className="text-left px-4 py-2">Vaqt</th>
-              <th className="text-left px-4 py-2">Surat</th>
-              <th className="text-left px-4 py-2">Surat o'qituvchisi</th>
-              <th className="text-left px-4 py-2">Maxraj</th>
-              <th className="text-left px-4 py-2">Maxraj o'qituvchisi</th>
-              <th className="text-left px-4 py-2">Xona</th>
-              <th className="px-4 py-2 text-right">Amallar</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-200">
-            {orderedLessons.map(l => {
-              const suratTeacher = l.suratTeacherId ? teachers.find(t => t.id === l.suratTeacherId) : null
-              const maxrajTeacher = l.maxrajTeacherId ? teachers.find(t => t.id === l.maxrajTeacherId) : null
-              return (
-                <tr key={l.id} className="border-t border-border">
-                  <td className="px-4 py-2">{l.day}</td>
-                  <td className="px-4 py-2">{l.period}-soat</td>
-                  <td className="px-4 py-2">{PERIOD_TIME_MAP[l.period]}</td>
-                  <td className="px-4 py-2">{l.suratSubject}</td>
-                  <td className="px-4 py-2">{suratTeacher?.fullName || '—'}</td>
-                  <td className="px-4 py-2">{l.maxrajSubject || '—'}</td>
-                  <td className="px-4 py-2">{maxrajTeacher?.fullName || '—'}</td>
-                  <td className="px-4 py-2">{l.room || '—'}</td>
-                  <td className="px-4 py-2 text-right">
-                    <RoleGuard allow={['admin']}>
-                      <Button variant="outline" className="mr-2" onClick={() => handleEditLesson(l)}>Tahrirlash</Button>
-                      <Button variant="outline" onClick={() => handleRemoveLesson(l.id)}>O'chirish</Button>
-                    </RoleGuard>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        {/* Desktop table view */}
+        <div className="hidden lg:block overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-white/5 text-gray-300">
+              <tr>
+                <th className="text-left px-4 py-2">Kun</th>
+                <th className="text-left px-4 py-2">Soat</th>
+                <th className="text-left px-4 py-2">Vaqt</th>
+                <th className="text-left px-4 py-2">Surat</th>
+                <th className="text-left px-4 py-2">Surat o'qituvchisi</th>
+                <th className="text-left px-4 py-2">Maxraj</th>
+                <th className="text-left px-4 py-2">Maxraj o'qituvchisi</th>
+                <th className="text-left px-4 py-2">Xona</th>
+                <th className="px-4 py-2 text-right">Amallar</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-200">
+              {orderedLessons.map(l => {
+                const suratTeacher = l.suratTeacherId ? teachers.find(t => t.id === l.suratTeacherId) : null
+                const maxrajTeacher = l.maxrajTeacherId ? teachers.find(t => t.id === l.maxrajTeacherId) : null
+                return (
+                  <tr key={l.id} className="border-t border-border">
+                    <td className="px-4 py-2">{l.day}</td>
+                    <td className="px-4 py-2">{l.period}-soat</td>
+                    <td className="px-4 py-2">{PERIOD_TIME_MAP[l.period]}</td>
+                    <td className="px-4 py-2">{l.suratSubject}</td>
+                    <td className="px-4 py-2">{suratTeacher?.fullName || '—'}</td>
+                    <td className="px-4 py-2">{l.maxrajSubject || '—'}</td>
+                    <td className="px-4 py-2">{maxrajTeacher?.fullName || '—'}</td>
+                    <td className="px-4 py-2">{l.room || '—'}</td>
+                    <td className="px-4 py-2 text-right">
+                      <RoleGuard allow={['admin']}>
+                        <div className="flex gap-2 justify-end">
+                          <Button variant="outline" className="text-xs px-2 py-1" onClick={() => handleEditLesson(l)}>Tahrirlash</Button>
+                          <Button variant="outline" className="text-xs px-2 py-1" onClick={() => handleRemoveLesson(l.id)}>O'chirish</Button>
+                        </div>
+                      </RoleGuard>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile/Tablet card view */}
+        <div className="lg:hidden divide-y divide-border">
+          {orderedLessons.map(l => {
+            const suratTeacher = l.suratTeacherId ? teachers.find(t => t.id === l.suratTeacherId) : null
+            const maxrajTeacher = l.maxrajTeacherId ? teachers.find(t => t.id === l.maxrajTeacherId) : null
+            return (
+              <div key={l.id} className="p-4 space-y-2">
+                <div>
+                  <div className="font-medium text-white flex items-center gap-2">
+                    <span>{l.day}</span>
+                    <span className="text-gray-400">•</span>
+                    <span>{l.period}-soat</span>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-xs text-gray-400">{PERIOD_TIME_MAP[l.period]}</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-2 space-y-1">
+                    <div>
+                      <span className="text-gray-300">Surat fani:</span> {l.suratSubject}
+                      {suratTeacher && <span className="text-gray-500 ml-1">({suratTeacher.fullName})</span>}
+                    </div>
+                    {l.maxrajSubject && (
+                      <div>
+                        <span className="text-gray-300">Maxraj fani:</span> {l.maxrajSubject}
+                        {maxrajTeacher && <span className="text-gray-500 ml-1">({maxrajTeacher.fullName})</span>}
+                      </div>
+                    )}
+                    {l.room && (
+                      <div>
+                        <span className="text-gray-300">Xona:</span> {l.room}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <RoleGuard allow={['admin']}>
+                  <div className="flex gap-2 pt-2">
+                    <Button variant="outline" className="text-xs flex-1" onClick={() => handleEditLesson(l)}>Tahrirlash</Button>
+                    <Button variant="outline" className="text-xs flex-1" onClick={() => handleRemoveLesson(l.id)}>O'chirish</Button>
+                  </div>
+                </RoleGuard>
+              </div>
+            )
+          })}
+        </div>
       </Card>
     </div>
   )
@@ -254,7 +303,7 @@ function AddLessonForm({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-8 gap-3 items-end">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3 items-end">
       <div>
         <label className="block text-xs text-gray-400 mb-1">Kun</label>
         <select
@@ -355,7 +404,7 @@ function AddLessonForm({
           onChange={e => setForm(prev => ({ ...prev, room: e.target.value }))}
         />
       </div>
-      <div className="flex flex-col gap-2 md:col-span-2">
+      <div className="flex flex-col gap-2 sm:col-span-2 lg:col-span-4 xl:col-span-2">
         <label className="inline-flex items-center gap-2 text-sm text-gray-300">
           <input
             type="checkbox"
@@ -406,8 +455,8 @@ function WeeklyCalendar({ lessons }: { lessons: Lesson[] }) {
   }, [lessons])
 
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
+    <div className="p-2 md:p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {DAY_OPTIONS.map(day => {
           const dayLessons = grouped[day] ?? []
           return (

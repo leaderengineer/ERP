@@ -194,8 +194,8 @@ export default function Students() {
   return (
     <div className="space-y-4">
       <RoleGuard allow={['admin']}>
-        <Card className="text-gray-200">
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
+      <Card className="text-gray-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             <div>
               <label className="block text-xs text-gray-400 mb-1">Ism</label>
               <Input value={form.firstName || ''} onChange={e => setForm(prev => ({ ...prev, firstName: e.target.value }))} />
@@ -289,7 +289,7 @@ export default function Students() {
       </RoleGuard>
 
       <Card className="text-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-end">
           <div>
             <label className="block text-xs text-gray-400 mb-1">Qidirish</label>
             <Input placeholder="Ism bo‘yicha..." value={query} onChange={e => setQuery(e.target.value)} />
@@ -352,45 +352,74 @@ export default function Students() {
       </Card>
 
       <Card className="p-0 overflow-hidden">
-        <div className="flex justify-between p-3">
-          <label className="text-sm text-gray-300">
-            <span className="mr-2">CSV import</span>
+        <div className="flex flex-col sm:flex-row justify-between gap-2 p-3">
+          <label className="text-sm text-gray-300 flex items-center gap-2">
+            <span>CSV import</span>
             <input type="file" accept=".csv" onChange={importCsv} className="hidden" id="s-import" />
-            <Button asChild variant="outline"><label htmlFor="s-import">Yuklash</label></Button>
+            <Button asChild variant="outline"><label htmlFor="s-import" className="cursor-pointer">Yuklash</label></Button>
           </label>
           <RoleGuard allow={['admin']}>
             <Button variant="outline" onClick={exportCsv}>CSV eksport</Button>
           </RoleGuard>
         </div>
-        <table className="w-full text-sm">
-          <thead className="bg-white/5 text-gray-300">
-            <tr>
-              <th className="text-left px-4 py-2">F.I.Sh</th>
-              <th className="text-left px-4 py-2">Yo‘nalish</th>
-              <th className="text-left px-4 py-2">Kurs</th>
-              <th className="text-left px-4 py-2">Ta'lim shakli</th>
-              <th className="text-left px-4 py-2">Guruh</th>
-              <th className="px-4 py-2 text-right">Amallar</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-200">
-            {filtered.map(s => (
-              <tr key={s.id} className="border-t border-border">
-                <td className="px-4 py-2">{s.fullName}</td>
-                <td className="px-4 py-2">{s.program}</td>
-                <td className="px-4 py-2">{s.course}</td>
-                <td className="px-4 py-2">{s.educationForm}</td>
-                <td className="px-4 py-2">{s.group}</td>
-                <td className="px-4 py-2 text-right">
-                  <RoleGuard allow={['admin']}>
-                    <Button variant="outline" className="mr-2" onClick={() => onEdit(s)}>Tahrirlash</Button>
-                    <Button variant="outline" onClick={() => onDelete(s.id)}>O‘chirish</Button>
-                  </RoleGuard>
-                </td>
+        
+        {/* Desktop table view */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-white/5 text-gray-300">
+              <tr>
+                <th className="text-left px-4 py-2">F.I.Sh</th>
+                <th className="text-left px-4 py-2">Yo'nalish</th>
+                <th className="text-left px-4 py-2">Kurs</th>
+                <th className="text-left px-4 py-2">Ta'lim shakli</th>
+                <th className="text-left px-4 py-2">Guruh</th>
+                <th className="px-4 py-2 text-right">Amallar</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-gray-200">
+              {filtered.map(s => (
+                <tr key={s.id} className="border-t border-border">
+                  <td className="px-4 py-2">{s.fullName}</td>
+                  <td className="px-4 py-2">{s.program}</td>
+                  <td className="px-4 py-2">{s.course}</td>
+                  <td className="px-4 py-2">{s.educationForm}</td>
+                  <td className="px-4 py-2">{s.group}</td>
+                  <td className="px-4 py-2 text-right">
+                    <RoleGuard allow={['admin']}>
+                      <div className="flex gap-2 justify-end">
+                        <Button variant="outline" className="text-xs px-2 py-1" onClick={() => onEdit(s)}>Tahrirlash</Button>
+                        <Button variant="outline" className="text-xs px-2 py-1" onClick={() => onDelete(s.id)}>O'chirish</Button>
+                      </div>
+                    </RoleGuard>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile card view */}
+        <div className="md:hidden divide-y divide-border">
+          {filtered.map(s => (
+            <div key={s.id} className="p-4 space-y-2">
+              <div>
+                <div className="font-medium text-white">{s.fullName}</div>
+                <div className="text-xs text-gray-400 mt-1 space-y-1">
+                  <div>Yo'nalish: {s.program || '—'}</div>
+                  <div>Kurs: {s.course || '—'}</div>
+                  <div>Ta'lim shakli: {s.educationForm || '—'}</div>
+                  <div>Guruh: {s.group || '—'}</div>
+                </div>
+              </div>
+              <RoleGuard allow={['admin']}>
+                <div className="flex gap-2 pt-2">
+                  <Button variant="outline" className="text-xs flex-1" onClick={() => onEdit(s)}>Tahrirlash</Button>
+                  <Button variant="outline" className="text-xs flex-1" onClick={() => onDelete(s.id)}>O'chirish</Button>
+                </div>
+              </RoleGuard>
+            </div>
+          ))}
+        </div>
       </Card>
     </div>
   )

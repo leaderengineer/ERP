@@ -33,9 +33,9 @@ export default function Login() {
   }
 
   return (
-    <div className="max-w-sm mx-auto">
+    <div className="max-w-sm mx-auto px-4">
       <Card className="text-gray-200">
-        <h2 className="text-white font-semibold mb-3">Kirish</h2>
+        <h2 className="text-white font-semibold text-lg md:text-xl mb-3">Kirish</h2>
         <div className="space-y-3">
           <div>
             <label className="block text-xs text-gray-400 mb-1">Username</label>
