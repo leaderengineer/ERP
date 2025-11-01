@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { useAppSelector } from '../hooks'
 
 export default function RoleGuard({ allow, children }: PropsWithChildren<{ allow: ('admin' | 'teacher' | 'student' | 'guest')[] }>) {

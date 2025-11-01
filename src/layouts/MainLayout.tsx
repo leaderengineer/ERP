@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Menu, BookOpen, Users, CalendarDays, Library, LayoutGrid, CheckSquare, Shield } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../hooks'

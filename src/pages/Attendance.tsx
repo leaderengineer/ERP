@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Card, Button, Input } from '../components/ui'
-import { listStudents, type Student, GROUPS_BY_COURSE, COURSE_OPTIONS, FIRST_COURSE_GROUPS, SECOND_COURSE_GROUPS, type Course } from '../services/students'
+import { listStudents, GROUPS_BY_COURSE, COURSE_OPTIONS, FIRST_COURSE_GROUPS, SECOND_COURSE_GROUPS, type Course } from '../services/students'
 import { listAttendance, setAttendance, type AttendanceStatus } from '../services/attendance'
 import RoleGuard from '../components/RoleGuard'
 import { toCsv, downloadCsv } from '../utils/csv'
@@ -81,7 +81,7 @@ export default function Attendance() {
     const header = ['T/r', 'F.I.Sh', 'Guruh', 'Holat']
     const rows = filteredStudents.map((s, idx) => {
       const status = statusOf(s.id)
-      return [idx + 1, s.fullName, selectedGroup, getStatusLabel(status)]
+      return [String(idx + 1), s.fullName, selectedGroup, getStatusLabel(status)]
     })
     const csv = toCsv([header, ...rows])
     downloadCsv(`davomat-${selectedGroup}-${date}.csv`, csv)

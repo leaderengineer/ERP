@@ -254,7 +254,15 @@ export default function Teachers() {
               <select
                 className="w-full bg-transparent text-gray-200 border border-border rounded px-3 py-2 text-sm"
                 value={form.specialization || ''}
-                onChange={e => setForm({ ...form, specialization: e.target.value || undefined })}
+                onChange={e => {
+                  const value = e.target.value
+                  setForm({ 
+                    ...form, 
+                    specialization: value && SPECIALIZATION_OPTIONS.includes(value as any) 
+                      ? (value as typeof SPECIALIZATION_OPTIONS[number]) 
+                      : undefined 
+                  })
+                }}
               >
                 <option value="">Fanini tanlang</option>
                 {SPECIALIZATION_OPTIONS.map(option => (
