@@ -21,7 +21,7 @@ type CourseOption = Course
 type ProgramOption = Program
 type EducationFormOption = EducationForm
 
-const SELECT_CLASSNAME = 'w-full bg-transparent text-gray-200 border border-border rounded px-3 py-2 outline-none focus:ring-2 ring-primary/40'
+const SELECT_CLASSNAME = 'w-full bg-[#19172a] text-white border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-gray-400 hover:opacity-90 dark:bg-card/50 dark:text-gray-100 dark:border-border dark:focus:ring-primary dark:focus:border-primary'
 
 const FIRST_COURSE_GROUPS = Array.from({ length: 24 }, (_, idx) => `${idx + 1}-26`)
 const SECOND_COURSE_GROUPS = Array.from({ length: 24 }, (_, idx) => `${idx + 1}-25`)

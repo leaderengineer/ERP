@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, BookOpen, Users, CalendarDays, Library, LayoutGrid, CheckSquare, Shield } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { logout } from '../features/auth/authSlice'
@@ -30,9 +30,12 @@ export default function MainLayout({ children }: PropsWithChildren) {
         transition-transform duration-300 ease-in-out
         md:block
         md:flex-shrink-0
-      `}>
-        <div className="h-14 flex items-center justify-between px-4 border-b border-border">
-          <Link to="/" className="text-xl font-semibold text-white">Texnikum ERP</Link>
+      `} style={{
+        backgroundColor: 'var(--color-card)',
+        borderColor: 'var(--color-border)',
+      }}>
+        <div className="h-14 flex items-center justify-between px-4 border-b" style={{ borderColor: 'var(--color-border)' }}>
+          <Link to="/" className="text-xl font-semibold" style={{ color: 'var(--color-foreground)' }}>Texnikum ERP</Link>
           <button 
             onClick={() => setMobileMenuOpen(false)}
             className="md:hidden text-gray-400 hover:text-white"
@@ -40,7 +43,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
             <Menu size={18} />
           </button>
         </div>
-        <nav className="p-2 text-sm text-gray-200 h-[calc(100vh-56px)] overflow-y-auto">
+        <nav className="p-2 text-sm h-[calc(100vh-56px)] overflow-y-auto" style={{ color: 'var(--color-foreground)' }}>
           <NavItem to="/" icon={<LayoutGrid size={18} />} onClick={() => setMobileMenuOpen(false)}>Boshqaruv paneli</NavItem>
           <NavItem to="/oqituvchilar" icon={<Users size={18} />} onClick={() => setMobileMenuOpen(false)}>O'qituvchilar</NavItem>
           <NavItem to="/talabalar" icon={<Users size={18} />} onClick={() => setMobileMenuOpen(false)}>Talabalar</NavItem>
@@ -57,22 +60,23 @@ export default function MainLayout({ children }: PropsWithChildren) {
       {/* Main content area */}
       <div className="flex-1 min-w-0 md:flex md:flex-col">
         {/* Header */}
-        <header className="h-14 border-b border-border bg-card/60 backdrop-blur flex items-center justify-between px-4 sticky top-0 z-30">
+        <header className="h-14 border-b bg-card/60 backdrop-blur flex items-center justify-between px-4 sticky top-0 z-30" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-card)' }}>
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden inline-flex items-center justify-center p-2 rounded border border-border text-gray-200 hover:bg-white/5"
+              className="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-200 hover:bg-white/5"
+              style={{ borderColor: 'var(--color-border)' }}
             >
               <Menu size={18} />
             </button>
-            <span className="text-gray-300 text-sm truncate">{userName ? `Salom, ${userName}!` : 'Xush kelibsiz'}</span>
+            <span className="text-sm truncate" style={{ color: 'var(--color-foreground)' }}>{userName ? `Salom, ${userName}!` : 'Xush kelibsiz'}</span>
           </div>
-          <div className="text-gray-300 text-sm flex items-center gap-2 md:gap-4">
+          <div className="text-sm flex items-center gap-2 md:gap-4" style={{ color: 'var(--color-foreground)' }}>
             <ThemeToggle />
             {role !== 'guest' ? (
-              <button onClick={() => dispatch(logout())} className="underline text-primary whitespace-nowrap">Chiqish</button>
+              <button onClick={() => dispatch(logout())} className="underline whitespace-nowrap" style={{ color: 'var(--color-primary)' }}>Chiqish</button>
             ) : (
-              <NavLink to="/login" className="underline text-primary whitespace-nowrap">Kirish</NavLink>
+              <NavLink to="/login" className="underline whitespace-nowrap" style={{ color: 'var(--color-primary)' }}>Kirish</NavLink>
             )}
           </div>
         </header>
@@ -87,18 +91,21 @@ export default function MainLayout({ children }: PropsWithChildren) {
 }
 
 function NavItem({ to, icon, children, onClick }: { to: string; icon: React.ReactNode; children: React.ReactNode; onClick?: () => void }) {
+  const location = useLocation()
+  const isActive = location.pathname === to
+  
   return (
     <NavLink
       to={to}
       onClick={onClick}
-      className={({ isActive }) =>
-        `flex items-center gap-2 px-3 py-2 rounded transition-colors ${
-          isActive ? 'bg-primary/20 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white'
-        }`
-      }
+      className={`flex items-center gap-2 px-3 py-2 rounded transition-colors ${
+        isActive
+          ? 'bg-primary/20'
+          : 'hover:bg-white/5'
+      }`}
     >
-      <span className="text-primary">{icon}</span>
-      {children}
+      <span style={{ color: 'var(--color-primary)' }}>{icon}</span>
+      <span style={{ color: isActive ? 'var(--color-primary)' : 'var(--color-foreground)' }}>{children}</span>
     </NavLink>
   )
 }

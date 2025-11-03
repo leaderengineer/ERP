@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 function getInitial(): 'dark' | 'light' {
   const saved = localStorage.getItem('theme') as 'dark' | 'light' | null
-  return saved ?? 'dark'
+  return saved ?? 'light'
 }
 
 export default function ThemeToggle() {
@@ -10,14 +10,14 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     const root = document.documentElement
-    if (mode === 'light') root.setAttribute('data-theme', 'light')
+    if (mode === 'dark') root.setAttribute('data-theme', 'dark')
     else root.removeAttribute('data-theme')
     localStorage.setItem('theme', mode)
   }, [mode])
 
   return (
-    <button onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')} className="text-gray-300 text-sm underline">
-      {mode === 'dark' ? 'Light' : 'Dark'}
+    <button onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')} style={{ color: 'var(--color-foreground)' }} className="hover:opacity-80 text-sm font-medium transition-opacity">
+      {mode === 'light' ? '🌙 Dark' : '☀️ Light'}
     </button>
   )
 }

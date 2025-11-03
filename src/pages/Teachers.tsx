@@ -6,7 +6,8 @@ import RoleGuard from '../components/RoleGuard'
 
 const DEGREE_OPTIONS = ['Katta o‘qituvchi', 'Yetakchi o‘qituvchi', 'Oliy o‘qituvchi']
 const DEPARTMENT_OPTIONS = ['Aniq fanlar', 'Maxsus fanlar', 'Tikuvchilik', 'Avtomobil', 'Elektromontyor']
-const FILTER_SELECT_CLASSNAME = 'w-full bg-transparent text-gray-200 border border-border rounded px-3 py-2 text-sm'
+const FILTER_SELECT_CLASSNAME = 'w-full bg-[#19172a] text-white border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-gray-400 hover:opacity-90 dark:bg-card/50 dark:text-gray-100 dark:border-border dark:focus:ring-primary dark:focus:border-primary'
+const SELECT_CLASSNAME = 'w-full bg-[#19172a] text-white border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-gray-400 hover:opacity-90 dark:bg-card/50 dark:text-gray-100 dark:border-border dark:focus:ring-primary dark:focus:border-primary'
 
 export default function Teachers() {
   const [teachers, setTeachers] = useState<Teacher[]>(() => listTeachers())
@@ -194,41 +195,41 @@ export default function Teachers() {
   return (
     <div className="space-y-4">
       <RoleGuard allow={['admin']}>
-        <Card className="text-gray-200">
+        <Card className="text-gray-900 dark:text-gray-200">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Ism</label>
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Ism</label>
               <Input value={form.firstName || ''} onChange={e => setForm({ ...form, firstName: e.target.value })} />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Familiya</label>
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Familiya</label>
               <Input value={form.lastName || ''} onChange={e => setForm({ ...form, lastName: e.target.value })} />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Sharifi</label>
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Sharifi</label>
               <Input value={form.middleName || ''} onChange={e => setForm({ ...form, middleName: e.target.value })} />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs text-gray-400 mb-1">F.I.Sh</label>
-              <Input value={computedFullName} disabled className="bg-white/5 text-gray-400 cursor-not-allowed" />
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">F.I.Sh</label>
+              <Input value={computedFullName} disabled className="bg-gray-100 text-gray-600 cursor-not-allowed dark:bg-white/5 dark:text-gray-400" />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Username</label>
-              <Input value={computedUsername} disabled className="bg-white/5 text-gray-400 cursor-not-allowed" />
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Username</label>
+              <Input value={computedUsername} disabled className="bg-gray-100 text-gray-600 cursor-not-allowed dark:bg-white/5 dark:text-gray-400" />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Telefon</label>
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Telefon</label>
               <Input
                 value={form.phone || ''}
                 onChange={e => setForm({ ...form, phone: e.target.value })}
                 placeholder="99 123 45 67"
               />
-              <span className="text-xs text-gray-500">Format: 99 123 45 67</span>
+              <span className="text-xs text-gray-600 dark:text-gray-400 mt-1 block">Format: 99 123 45 67</span>
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Kafedra</label>
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Kafedra</label>
               <select
-                className="w-full bg-transparent text-gray-200 border border-border rounded px-3 py-2 text-sm"
+                className={SELECT_CLASSNAME}
                 value={form.department}
                 onChange={e => setForm({ ...form, department: e.target.value })}
               >
@@ -238,9 +239,9 @@ export default function Teachers() {
               </select>
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Daraja</label>
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Daraja</label>
               <select
-                className="w-full bg-transparent text-gray-200 border border-border rounded px-3 py-2 text-sm"
+                className={SELECT_CLASSNAME}
                 value={form.degree}
                 onChange={e => setForm({ ...form, degree: e.target.value })}
               >
@@ -250,9 +251,9 @@ export default function Teachers() {
               </select>
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Mutaxasislik fani</label>
+              <label className="block text-xs font-bold text-gray-900 dark:text-gray-300 mb-1.5">Mutaxasislik fani</label>
               <select
-                className="w-full bg-transparent text-gray-200 border border-border rounded px-3 py-2 text-sm"
+                className={SELECT_CLASSNAME}
                 value={form.specialization || ''}
                 onChange={e => {
                   const value = e.target.value
@@ -280,14 +281,14 @@ export default function Teachers() {
         </Card>
       </RoleGuard>
 
-      <Card className="text-gray-200">
+      <Card className="text-gray-900 dark:text-gray-200">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 items-end">
           <div>
-            <label className="block text-xs text-gray-400 mb-1">Qidirish</label>
+            <label className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1.5">Qidirish</label>
             <Input placeholder="Ism bo‘yicha..." value={query} onChange={e => setQuery(e.target.value)} />
           </div>
           <div>
-            <label className="block text-xs text-gray-400 mb-1">Daraja</label>
+            <label className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1.5">Daraja</label>
             <select
               className={FILTER_SELECT_CLASSNAME}
               value={filters.degree}
@@ -300,7 +301,7 @@ export default function Teachers() {
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-400 mb-1">Kafedra</label>
+            <label className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1.5">Kafedra</label>
             <select
               className={FILTER_SELECT_CLASSNAME}
               value={filters.department}
@@ -328,20 +329,20 @@ export default function Teachers() {
         {/* Desktop table view */}
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-white/5 text-gray-300">
+            <thead className="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-900 dark:from-white/5 dark:to-white/10 dark:text-gray-300 border-b-2 border-gray-300 dark:border-border">
               <tr>
-                <th className="text-left px-4 py-2">F.I.Sh</th>
-                <th className="text-left px-4 py-2">Username</th>
-                <th className="text-left px-4 py-2">Telefon</th>
-                <th className="text-left px-4 py-2">Kafedra</th>
-                <th className="text-left px-4 py-2">Daraja</th>
-                <th className="text-left px-4 py-2">Mutaxasislik</th>
-                <th className="px-4 py-2 text-right">Amallar</th>
+                <th className="text-left px-4 py-3 font-bold">F.I.Sh</th>
+                <th className="text-left px-4 py-3 font-bold">Username</th>
+                <th className="text-left px-4 py-3 font-bold">Telefon</th>
+                <th className="text-left px-4 py-3 font-bold">Kafedra</th>
+                <th className="text-left px-4 py-3 font-bold">Daraja</th>
+                <th className="text-left px-4 py-3 font-bold">Mutaxasislik</th>
+                <th className="px-4 py-3 text-right font-bold">Amallar</th>
               </tr>
             </thead>
-            <tbody className="text-gray-200">
+            <tbody className="text-gray-800 dark:text-gray-200">
               {filtered.map(t => (
-                <tr key={t.id} className="border-t border-border">
+                <tr key={t.id} className="border-t border-gray-200 dark:border-border hover:bg-blue-50 dark:hover:bg-white/5 transition-colors cursor-pointer">
                   <td className="px-4 py-2">{t.fullName}</td>
                   <td className="px-4 py-2">{t.username}</td>
                   <td className="px-4 py-2">{t.phone}</td>
@@ -364,12 +365,12 @@ export default function Teachers() {
         </div>
 
         {/* Mobile/Tablet card view */}
-        <div className="lg:hidden divide-y divide-border">
+        <div className="lg:hidden divide-y divide-gray-200 dark:divide-border">
           {filtered.map(t => (
             <div key={t.id} className="p-4 space-y-2">
               <div>
-                <div className="font-medium text-white">{t.fullName}</div>
-                <div className="text-xs text-gray-400 mt-1 space-y-1">
+                <div className="font-bold text-gray-900 dark:text-white">{t.fullName}</div>
+                <div className="text-xs text-gray-700 dark:text-gray-400 mt-1 space-y-1">
                   <div>Username: {t.username}</div>
                   <div>Telefon: {t.phone || '—'}</div>
                   <div>Kafedra: {t.department || '—'}</div>

@@ -6,7 +6,7 @@ import RoleGuard from '../components/RoleGuard'
 import { toCsv, downloadCsv } from '../utils/csv'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts'
 
-const SELECT_CLASSNAME = 'w-full bg-transparent text-gray-200 border border-border rounded px-3 py-2 text-sm outline-none focus:ring-2 ring-primary/40'
+const SELECT_CLASSNAME = 'w-full bg-[#19172a] text-white border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-gray-400 hover:opacity-90 dark:bg-card/50 dark:text-gray-100 dark:border-border dark:focus:ring-primary dark:focus:border-primary'
 
 function todayStr(d = new Date()) {
   return d.toISOString().slice(0, 10)
